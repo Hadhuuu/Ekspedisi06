@@ -83,11 +83,81 @@ public class Ekspedisi06 {
     }
 
     static void tambahPesanan () {
+           //Penambahan Pesanan untuk setiap pelanggan
 
+           Scanner scanner = new Scanner (System.in);
+           // Resi didapatkan dengan memanfaatkan Random dengan jarak 1000000
+           Random random = new Random();
+           int nomorResi = random.nextInt(1000000);
+   
+           System.out.print("Masukkan Nama Pelanggan: ");
+           String namaPelanggan = scanner.nextLine();
+   
+           System.out.print("Masukkan Deskripsi Barang: ");
+           String deskripsiBarang = scanner.nextLine();
+   
+           System.out.println("Pilih Kota Pengirim :");
+           tampilkanKota();
+           System.out.print("Pilihan Anda: ");
+           String kotaPengirim = scanner.next();
+   
+           System.out.println("Pilih Kota Penerima :");
+           tampilkanKota();
+           System.out.print("Pilihan Anda: ");
+           String kotaPenerima = scanner.next();
+   
+           int index = cariIndexKosong(databasePelanggan);
+           if (index != -1) {
+               // Syntax UTAMA untuk input data
+               databasePelanggan[index][0] = String.valueOf(nomorResi);
+               databasePelanggan[index][1] = namaPelanggan;
+               databasePelanggan[index][2] = deskripsiBarang;
+               databasePelanggan[index][3] = kotaPengirim;
+               databasePelanggan[index][4] = kotaPenerima;
+   
+               System.out.println("Pesanan berhasil ditambahkan.");
+           } else {
+               // Apabila fungsi cariIndexKosong tidak menemukan Data null pada database
+               System.out.println("Database pelanggan penuh. Tidak dapat menambahkan pesanan.");
+           }   
     }
 
     static void ManajemenPaket () {
+        // Fungsi untuk memanajemen Paket
+        Scanner scanner = new Scanner(System.in);
+        tampilkanDataPelanggan();
 
+        System.out.print("Pilih Pelanggan untuk me-Manage Paket (Nama): ");
+        String nama = scanner.next();
+
+        int index = cariIndexPelanggan(nama);
+        if (index != -1) {
+            System.out.print("Masukkan berat barang (Kg) " + databasePelanggan[index][2] + " :");
+            int beratBarang = scanner.nextInt();
+            System.out.println("Masukkan ukuran barang (cm) " + databasePelanggan[index][2]);
+            System.out.print("panjang  : ");
+            int panjang = scanner.nextInt();
+            System.out.print("lebar \t : ");
+            int lebar = scanner.nextInt();
+            System.out.print("tinggi \t : ");
+            int tinggi = scanner.nextInt();
+
+            int volume = panjang*lebar*tinggi;
+            // Syarat syarat agar barang tidak melebihi batas (Berat & Besar barang) dari setiap pelanggan
+            if ((panjang>40) || (lebar>40) || (tinggi>40)) {
+                System.out.println("Barang terlalu besar !");
+            }
+            else if (beratBarang>25) {
+                System.out.println("Barang terlalu berat !");
+            } else {
+                System.out.println("Volume dan berat barang tidak melebihi batas (Berhasil Dimasukkan)");
+                // Syntax UTAMA untuk input berat serta volume barang
+                databasePelanggan[index][5] = String.valueOf(beratBarang);
+                databasePelanggan[index][6] = String.valueOf(volume);
+            }
+        } else {
+            System.out.println("Data pelanggan tidak ditemukan.");
+        }
     }
 
     static void estimasiBiaya () {
