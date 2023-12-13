@@ -161,11 +161,87 @@ public class Ekspedisi06 {
     }
 
     static void estimasiBiaya () {
-
+          // Fungsi untuk Perhitungan biaya setiap pelanggan
+          Scanner scanner = new Scanner(System.in);
+          tampilkanDataPelanggan();
+  
+          System.out.print("Pilih Pelanggan untuk Estimasi Biaya (Nama): ");
+          String nama = scanner.next();
+  
+          int index = cariIndexPelanggan(nama);
+          if (index != -1) {
+              int jarak=0;
+              int patokan=5;
+  
+              for (int i=0; i<ruteKota.length; i++) {
+                  // Perulangan untuk penyamaan nama kota pengirim dan penerima pada databasePelanggan dan databseKota (Untuk menyesuaikan jarak)
+                  // Terdapat dua logika, dikarenakan DataBase Kota bisa pengirim dan penerima yang terbalik dalam arary tersebut
+                  if ((databasePelanggan[index][3].equalsIgnoreCase(ruteKota[i][0]))&&(databasePelanggan[index][4].equalsIgnoreCase(ruteKota[i][1]))) {
+                      jarak=Integer.parseInt(ruteKota[i][2]);
+  
+                      // Standart harga untuk setiap Jarak(km), Berat(Kg), Volume(cm^3)
+                      int hargaJarak=200*jarak;
+                      int hargaBerat=300*Integer.parseInt(databasePelanggan[index][5]);
+                      Double hargaVol=0.2*Integer.parseInt(databasePelanggan[index][6]);
+                      int hargaVoll=hargaVol.intValue();
+  
+                      int hargaAkhir = hargaJarak+hargaBerat+hargaVoll;
+                      // Syntax UTAMA untuk input Harga
+                      databasePelanggan[index][7]=String.valueOf(hargaAkhir);
+                      System.out.println("Total harga dari pesanan ini adalah Rp."+hargaAkhir);
+                      System.out.println("Harga Berhasil Dimasukkan...!");
+                      patokan+=30;
+                      break;
+                  }
+                  else if ((databasePelanggan[index][3].equalsIgnoreCase(ruteKota[i][1]))&&(databasePelanggan[index][4].equalsIgnoreCase(ruteKota[i][0]))) {
+                      jarak=Integer.parseInt(ruteKota[i][2]);
+  
+                      // Standart harga untuk setiap Jarak(km), Berat(Kg), Volume(cm^3)
+                      int hargaJarak=200*jarak;
+                      int hargaBerat=300*Integer.parseInt(databasePelanggan[index][5]);
+                      Double hargaVol=0.2*Integer.parseInt(databasePelanggan[index][6]);
+                      int hargaVoll=hargaVol.intValue();
+  
+                      int hargaAkhir = hargaJarak+hargaBerat+hargaVoll;
+                      // Syntax UTAMA untuk input Harga
+                      databasePelanggan[index][7]=String.valueOf(hargaAkhir);
+                      System.out.println("Total harga dari pesanan ini adalah Rp."+hargaAkhir);
+                      System.out.println("Harga Berhasil Dimasukkan...!");
+                      // Patokan 30 hanya sebagai logika untuk menghentikan program. (kenapa 30 karena butuh banyak) 
+                      patokan+=30;
+                      break;
+                  }
+                   else {
+                      patokan--;
+                  }
+              }
+              if (patokan<5) {
+                  System.out.println("Kota dalam pesanan ini tidak ada dalam data...");
+              }
+          } else {
+              System.out.println("Data pelanggan tidak ditemukan.");
+          }  
     }
 
     static void jadwalPengiriman () {
-       
+        // Fungsi untuk memasukkan Jadwal Pengiriman ke dalam Database pelanggan dengan format (YYYY-MM-DD)
+        Scanner scanner = new Scanner(System.in);
+        tampilkanDataPelanggan();
+
+        System.out.print("Pilih Data Pelanggan yang Ingin Dimasukkan Jadwal Pengiriman (Nama): ");
+        String nama = scanner.next();
+
+        int index = cariIndexPelanggan(nama);
+        if (index != -1) {
+            System.out.print("Masukkan Jadwal Pengiriman (YYYY-MM-DD) : ");
+            String jadwal = scanner.next();
+            // Syntax UTAMA untuk input jadwal
+            databasePelanggan[index][8] = jadwal;
+
+            System.out.println("Jadwal Pengiriman berhasil dimasukkan.");
+        } else {
+            System.out.println("Data pelanggan tidak ditemukan.");
+        }
     }
 
     static void pemilihanJenisPesanan () {
@@ -237,9 +313,29 @@ public class Ekspedisi06 {
     }
 
     static void promoDanDiskon () {
-
+         // Fungsi untuk menambahkan Diskon
+         Scanner scanner = new Scanner(System.in);
+         tampilkanDataPelanggan();
+ 
+         System.out.print("Pilih Data Pelanggan yang Ingin Diberi Diskon Tambahan (Nama): ");
+         String nama = scanner.next();
+ 
+         int index = cariIndexPelanggan(nama);
+         if (index != -1) {
+             // Syarat yang harus dipenuhi untuk mendapatkan diskon sebesar 10 %
+             if ((9>Integer.parseInt(databasePelanggan[index][5])) && (8000>Integer.parseInt(databasePelanggan[index][6]))) {
+                 System.out.println("Pesanan ini mendapatkan Diskon sebesar 10 %");
+                 Double Harga = Double.parseDouble(databasePelanggan[index][7])*0.9;
+                 System.out.println("Harga setelah diskon menjadi : Rp." + Harga.intValue());
+                 int Harga2 = Harga.intValue();
+                 databasePelanggan[index][7]=String.valueOf(Harga2);
+             } else {
+                 System.out.println("Pelanggan tidak memenuhi syarat Diskon..");
+             }
+         } else {
+             System.out.println("Data pelanggan tidak ditemukan.");
+         }
     }
-
     static void penambahanKendala () {
         // Fungsi untuk penambahan kendala dari databasePelanggan
         Scanner scanner = new Scanner(System.in);
