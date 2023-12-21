@@ -2,7 +2,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Ekspedisi06 {
-    //Databasae Pelanggan (30 Orang max) dam Database Kota
+    //Databasae Pelanggan (50 Orang max) dam Database Kota
     static String[][] databasePelanggan = new String[50][12];
     // Database Rute kota (bersifat dinamis) bisa ditambahkan melalui admin..
     static String[][] ruteKota = {
@@ -17,7 +17,7 @@ public class Ekspedisi06 {
             {"Madiun", "Probolinggo", "244"},
             {"Banyuwangi", "Madiun", "440"},
         };
-    // Database MEtodde pembayaran (statis)
+    // Database MEtodde pembayaran (dinamis) bsa ditambahkan melalui admin..
     static String[] metodePembayaran = {
         "Cash", "BCA", "BRI","PayPal"
         };
@@ -33,12 +33,13 @@ public class Ekspedisi06 {
     static String passwordAdmin = "12345";
 
     public static void main(String[] args) {
-        
+        // Tampilan Awal (Portal) pemilihan bahasa
         System.out.println("Language/Bahasa : ");
         System.out.println("1. Indonesia");
         System.out.println("2. English");
         Scanner sc = new Scanner(System.in);
         int z=0;
+        // Perulangan pilihan
         while (z<1) {
             System.out.println("choose/pilih  :  (1/2)");
             int pilihan = sc.nextInt();
@@ -55,7 +56,7 @@ public class Ekspedisi06 {
     }
 
     static void Indonesia () {
-
+        // Tampilan utama (Bahasa Indonesia)
         System.out.println("=== Akses level ===");
         System.out.println("1. Admin (Master)");
         System.out.println("2. Pegawai");
@@ -68,12 +69,14 @@ public class Ekspedisi06 {
             if (pilihan==1) {
                 int u = 0;
                 while (u<1) {
+                    // Penyamaan password sesuai database
                     System.out.println("Masukkan PASSWORD Admin : ");
                     String pass = sc.next();
                     if (pass.equalsIgnoreCase(passwordAdmin)) {
                         Adminlevel();
                         u++;
                     } else {
+                        // Syntax pasword salah
                         System.out.println("Password salah...");
                         u++;
                     }               
@@ -82,6 +85,7 @@ public class Ekspedisi06 {
                 PegawaiLevel();
             } else if (pilihan==3) {
                 System.out.println("==================| T E R I M A   K A S I H |==================");
+                // System exit dan program telah finish berjalan
                 System.exit(0);
             } else {
                 System.out.println("mohon masukkan angka yang valid");
@@ -91,6 +95,7 @@ public class Ekspedisi06 {
     }
 
     static void Adminlevel () {
+        // Tampilan admin level (master)
          Scanner sc = new Scanner (System.in);
             Scanner scanner = new Scanner(System.in);
             System.out.println("\n SELAMAT DATANG DI EKSPEDISI  'G V H' (Admin)");
@@ -102,16 +107,18 @@ public class Ekspedisi06 {
                 System.out.println("1. Penambahan Data Kota");
                 System.out.println("2. Penambahan Id Kasir");
                 System.out.println("3. Penambahan Id Staf");
-                System.out.println("4. Laporan Pendapatan");
-                System.out.println("5. Selesai");
+                System.out.println("4. Penambahan Metode Pembayaran");
+                System.out.println("5. Laporan Pendapatan");
+                System.out.println("6. Selesai");
                 System.out.println("==== Pilih Menu (1-5) ==== ");
                 menu = sc.nextInt();
                 // Pemecahan masing masing fungsi berdasarkan kegunaannya masing - masing
                 switch (menu) {
                 case 1:
+                    // Penambahan Rute Kota baru
                     System.out.println("Rute Kota Sebelum Penambahan:");
                     tampilkanRuteKota();
-            
+                    // Inputan untuk Kota 1, Kota 2, serta jaraknya
                     System.out.println("\nMasukkan rute baru : ");
                     System.out.print("Kota Asal: ");
                     String kotaAsal = scanner.next();
@@ -129,6 +136,7 @@ public class Ekspedisi06 {
                     tampilkanRuteKota();                                  
                     break;
                 case 2:
+                    // Penambahan Daftar Id kasir baru
                     System.out.println("Daftar Id kasir Sebelum Penambahan :");
                     tampilkankasir();
             
@@ -142,7 +150,7 @@ public class Ekspedisi06 {
                         newArray[i] = idkasir[i];
                     }
 
-                    // Menambahkan rute baru ke array baru
+                    // Menambahkan id staf ke array baru
                     newArray[idkasir.length] = Idbaru;
 
                     // Mengganti array lama dengan array baru
@@ -160,12 +168,12 @@ public class Ekspedisi06 {
                     
                     String[] newArrayy = new String[idStaf.length + 1];
 
-                    // penyalinan rute
+                    // penyalinan staf
                     for (int i = 0; i < idStaf.length; i++) {
                         newArrayy[i] = idStaf[i];
                     }
 
-                    // Menambahkan rute baru ke array baru
+                    // Menambahkan satf baru ke array baru
                     newArrayy[idStaf.length] = Idbaruu;
 
                     // Mengganti array lama dengan array baru
@@ -175,6 +183,30 @@ public class Ekspedisi06 {
                     tampilkanStaf();                       
                     break;
                 case 4:
+                    System.out.println("Daftar Metode Pembayaran Sebelum Penambahan :");
+                    tampilkanmetod();
+            
+                    System.out.println("\nMasukkan Metode baru  : ");
+                    String metodep = scanner.next();
+                    
+                    String[] newArrayyy = new String[metodePembayaran.length + 1];
+
+                    // penyalinan metode
+                    for (int i = 0; i < metodePembayaran.length; i++) {
+                        newArrayyy[i] = metodePembayaran[i];
+                    }
+
+                    // Menambahkan metode baru ke array baru
+                    newArrayyy[metodePembayaran.length] = metodep;
+
+                    // Mengganti array lama dengan array baru
+                    metodePembayaran = newArrayyy;
+
+                    System.out.println("\n Metode pembayaran Setelah Penambahan :");
+                    tampilkanmetod();                       
+                    break;
+                case 5:
+                    // Total pendapatan dari seluruh database pelanggan pada kolom ke 7
                     Double Pendapatan = 0.0;
                     for (int i = 0; i < databasePelanggan.length; i++) {
                         if (databasePelanggan[i][0]!=null)
@@ -183,7 +215,7 @@ public class Ekspedisi06 {
                     System.out.println("Total (sementara) pendapatan hari ini sebesar : ");
                     System.out.println("Rp. "+Pendapatan.intValue());
                     break;
-                case 5:
+                case 6:
                     System.out.println("Terima kasih telah menggunakan program Ekspedisi 'G V H' ");
                     z++;
                     break;
@@ -226,6 +258,12 @@ public class Ekspedisi06 {
     static void tampilkanStaf() {
         for (String id : idStaf) {
             System.out.println(id);
+        }
+    }
+
+    static void tampilkanmetod () {
+        for (String met : metodePembayaran) {
+            System.out.println(met);
         }
     }
 
@@ -533,7 +571,7 @@ public class Ekspedisi06 {
     }
 
     static void jenispembayaran () {
-        // Fungsi untuk memasukkan Metode Pembayaran
+        // Fungsi untuk memasukkan Jenis Pembayaran
         Scanner scanner = new Scanner(System.in);
         tampilkanDataPelanggan();
 
@@ -551,7 +589,7 @@ public class Ekspedisi06 {
             while (x<1) {
                 System.out.println("Masukkan pilihan : (1,2,...)");
                 int pilihan = scanner.nextInt();
-                if (pilihan<5) {
+                if (pilihan<=metodePembayaran.length) {
                     databasePelanggan[index][10]=metodePembayaran[pilihan-1];
                     System.out.println("Metode pembayaran " + metodePembayaran[pilihan-1] + " Berhasil dimasukkan");
                     x++;
@@ -688,7 +726,7 @@ public class Ekspedisi06 {
     }
 
     static void promoDanDiskon () {
-         // Fungsi untuk menambahkan Diskon
+         // Fungsi untuk menambahkan Diskon (Dinamis)
          Scanner scanner = new Scanner(System.in);
          tampilkanDataPelanggan();
  
@@ -699,12 +737,14 @@ public class Ekspedisi06 {
          if (index != -1) {
             int x = 0;
             while (x<1) {
+                //Inputan dalam persen
                 System.out.println("Masukkan Diskon Dalam Persen : ( contoh : 15 )");
                 Double diskonn = scanner.nextDouble();
                 if (diskonn <= 100) {
+                    // Dengan logika 1-(persentase/100)
                     Double hargabaruuh = 1 - (diskonn/100);
                     Double Harga = hargabaruuh*Double.parseDouble(databasePelanggan[index][7]);
-                   
+                    // Syntax Inputan utama
                     databasePelanggan[index][7]=String.valueOf(Harga);
                     System.out.println("Harga setelah diskon menjadi : Rp. " + databasePelanggan[index][7]);
                     x++;
@@ -757,7 +797,7 @@ public class Ekspedisi06 {
             System.out.println("Kota Penerima     : " + databasePelanggan[index][4]);
             System.out.println("Berat Barang      : " + databasePelanggan[index][5] + " Kg ");
             System.out.println("Volume Barang     : " + databasePelanggan[index][6] + " cm^3 ");
-            System.out.println("Biaya             : Rp." + databasePelanggan[index][7]);
+            System.out.println("Biaya             : Rp." + databasePelanggan[index][7] + " (" + databasePelanggan[index][10] + ") ");
             System.out.println("Jadwal Pengiriman : " + databasePelanggan[index][8]);
             System.out.println("Jadwal Penerimaan : " + databasePelanggan[index][9]);
             System.out.println("Lokasi barang (saat ini) : " + databasePelanggan[index][11]);
@@ -781,10 +821,11 @@ public class Ekspedisi06 {
     }
 
     static void tampilkanKota () {
+        // Syntax menampilkan Daftar Kota (tanpa duplikasi)
         System.out.println(ruteKota[0][0]);
         for (int i = 1 ; i < ruteKota.length ; i++) {
                if (ruteKota[i][0].equalsIgnoreCase(ruteKota[i-1][0])) {
-                
+                // Mengeliminasi nama kota yang sudah tertulis
                } else {
                 System.out.println(ruteKota[i][0]);
                 }
@@ -857,9 +898,18 @@ public class Ekspedisi06 {
 
     }
 
-    static void English () {
-        
+    // ===========================================================
+
+    // BATAS BAHASA (perulangan code dengan inggris)
+
+    // ===========================================================
+
+    static void English() {
+    
+
+    
     }
+
 
 }
 
